@@ -1,19 +1,59 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Index from './src/navigations/index';
+import React, { useState } from 'react';
+import {
+	SafeAreaView,
+	TextInput,
+	Button,
+	ActivityIndicator,
+	Text,
+	View,
+	Picker,
+} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
-	return <Index />;
+const Stack = createStackNavigator();
+import UsersList from './Screens/UsersList';
+import CreateUserScreen from './Screens/CreateUserScreen';
+import UserDetailScreen from './Screens/UserDetailScreen';
+import UserDetailOneScreen from './Screens/UserDetailOneScreens';
+
+// import Index from './src/navigations/index';
+// import Form from './src/screens/Form/index';
+
+function MyStack() {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+				name="UsersList"
+				component={UsersList}
+				options={{ title: 'Users List' }}
+			/>
+			<Stack.Screen
+				name="CreateUserScreen"
+				component={CreateUserScreen}
+				options={{ title: 'Create a New User' }}
+			/>
+
+			{/* <Stack.Screen
+				name="UserDetailOneScreen"
+				component={UserDetailOneScreen}
+				options={{ title: 'User One Detail' }}
+			/> */}
+
+			<Stack.Screen
+				name="UserDetailScreen"
+				component={UserDetailScreen}
+				options={{ title: 'User Detail' }}
+			/>
+		</Stack.Navigator>
+	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
-
-
+export default function App() {
+	return (
+		<NavigationContainer>
+			<MyStack />
+		</NavigationContainer>
+	);
+}
