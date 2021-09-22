@@ -16,7 +16,6 @@ const Stack = createStackNavigator();
 import UsersList from './Screens/UsersList';
 import CreateUserScreen from './Screens/CreateUserScreen';
 import UserDetailScreen from './Screens/UserDetailScreen';
-import UserDetailOneScreen from './Screens/UserDetailOneScreens';
 
 // import Index from './src/navigations/index';
 // import Form from './src/screens/Form/index';
@@ -34,12 +33,6 @@ function MyStack() {
 				component={CreateUserScreen}
 				options={{ title: 'Create a New User' }}
 			/>
-
-			{/* <Stack.Screen
-				name="UserDetailOneScreen"
-				component={UserDetailOneScreen}
-				options={{ title: 'User One Detail' }}
-			/> */}
 
 			<Stack.Screen
 				name="UserDetailScreen"

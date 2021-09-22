@@ -9,7 +9,7 @@ const SearchComponent = ({ onSearchEnter }) => {
 		<View style={styles.searchWrapperStyle}>
 			<Icon size={18} name="search" color="white" style={styles.iconStyle} />
 			<TextInput
-				placeholder='search'
+				placeholder="Search"
 				placeholderTextColor="white"
 				style={styles.searchInputStyle}
 				value={term}

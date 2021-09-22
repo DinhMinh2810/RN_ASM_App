@@ -27,7 +27,7 @@ const CreateUserScreen = (props) => {
 	const [date, setDate] = useState(new Date());
 	const [mode, setMode] = useState('date');
 	const [show, setShow] = useState(false);
-	const [text, setText] = useState('Empty');
+	const [text, setText] = useState('');
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || date;
@@ -38,21 +38,22 @@ const CreateUserScreen = (props) => {
 
 		let fDate =
 			tempDate.getDate() +
-			'/' +
+			'-' +
 			(tempDate.getMonth() + 1) +
-			'/' +
+			'-' +
 			tempDate.getFullYear();
 		let fTime =
-			'Hours: ' + tempDate.getHours() + ' | Minutes ' + tempDate.getMinutes();
+			tempDate.getHours() +
+			':' +
+			tempDate.getMinutes() +
+			':' +
+			tempDate.getMinutes();
 		setText(fDate + ' ' + fTime);
 		state.date = selectedDate.toLocaleString();
-		// console.log(state.date);
 		setState({ ...state, [name]: selectedDate });
-		// console.log(state);
 	};
 
 	const showMode = (name, currentMode) => {
-		// console.log('yes ' + currentMode + name);
 		setShow(true);
 		setMode(currentMode);
 	};
@@ -85,20 +86,6 @@ const CreateUserScreen = (props) => {
 		} else if (state.name === '') {
 			alert('Field User Name field is required');
 		} else {
-			// try {
-			// 	await firebase.db.collection('users').add({
-			// 		type: state.type,
-			// 		bedrooms: state.bedrooms,
-			// 		date: state.date,
-			// 		price: state.price,
-			// 		furniture: state.furniture,
-			// 		notes: state.notes,
-			// 		name: state.name,
-			// 	});
-			// } catch (error) {
-			// 	console.log(error);
-			// }
-			// alert('All your property has been added to the listing. Thanks!!');
 			Alert.alert(
 				'Are you confirm?',
 				`Property type : ${state.type} 
@@ -121,24 +108,7 @@ const CreateUserScreen = (props) => {
 			);
 		}
 	};
-	// let rootRef = firebase.db.ref();
-	// rootRef
-	// 	.child('users')
-	// 	.orderByChild('name')
-	// 	.equalTo(name)
-	// 	.once('value')
-	// 	.then((snapshot) => {
-	// 		if (snapshot.exist()) {
-	// 			let userData = snapshot.val();
-	// 			console.log(userData);
-	// 			Alert.alert('username is taken');
-	// 			return userData;
-	// 		} else {
-	// 			console.log(123);
-	// 		}
-	// 	});
 
-	// const ss = setState({ ...state });
 	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		firebase.db.collection('users').onSnapshot((querySnapshot) => {
@@ -160,11 +130,14 @@ const CreateUserScreen = (props) => {
 		});
 	}, []);
 
+	const duplicate = users.find((obj) => {
+		return obj.name === state.name;
+	});
+
 	const addUser = async () => {
 		try {
-			if (state.name === 'Sonn') {
-				console.log(state);
-				console.log(name);
+			if (duplicate) {
+				alert('User is existed. Please choose another username, thanks !!');
 			} else {
 				await firebase.db.collection('users').add({
 					type: state.type,
@@ -177,7 +150,6 @@ const CreateUserScreen = (props) => {
 				});
 				props.navigation.navigate('UsersList');
 				alert('All your property has been added to the listing. Thanks!!');
-				console.log(state);
 			}
 		} catch (error) {
 			console.log(error);
@@ -216,7 +188,8 @@ const CreateUserScreen = (props) => {
 				</Picker>
 			</View>
 			<Text>Date Time: {text}</Text>
-			<Button title="DatePicker" onPress={(value) => showMode('date', value)} />
+			{/* <Button title="DatePicker" onPress={(value) => showMode('date', value)} /> */}
+			<Button title="DatePicker" onPress={(value) => showMode(value)} />
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -268,9 +241,6 @@ const CreateUserScreen = (props) => {
 			</View>
 			<View>
 				<Button title="Submit" onPress={() => saveNewUser()} />
-			</View>
-			<View>
-				<Button title="Submit" onPress={() => haha()} />
 			</View>
 		</ScrollView>
 	);
