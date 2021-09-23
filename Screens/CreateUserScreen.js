@@ -81,6 +81,8 @@ const CreateUserScreen = (props) => {
 			alert('Field Date Time is required"');
 		} else if (state.price === '') {
 			alert('Field Monthly rent price is required');
+		} else if (state.notes.trim().length > 15) {
+			alert('Notes just maximum 15 characters');
 		} else if (state.name === '') {
 			alert('Field User Name field is required');
 		} else {
@@ -202,7 +204,7 @@ const CreateUserScreen = (props) => {
 			<View style={styles.inputGroup}>
 				<Text>Monthly rent price</Text>
 				<TextInput
-					placeholder="Please enter Price"
+					placeholder="Please enter price"
 					onChangeText={(value) => handleChangeText('price', value)}
 				/>
 			</View>
