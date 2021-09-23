@@ -29,13 +29,11 @@ const CreateUserScreen = (props) => {
 	const [show, setShow] = useState(false);
 	const [text, setText] = useState('');
 
-	const onChange = (event, selectedDate) => {
+	const onChange = (name, selectedDate) => {
 		const currentDate = selectedDate || date;
 		setShow(Platform.OS === 'ios');
 		setDate(currentDate);
-
 		let tempDate = new Date(currentDate);
-
 		let fDate =
 			tempDate.getDate() +
 			'-' +
@@ -188,8 +186,7 @@ const CreateUserScreen = (props) => {
 				</Picker>
 			</View>
 			<Text>Date Time: {text}</Text>
-			{/* <Button title="DatePicker" onPress={(value) => showMode('date', value)} /> */}
-			<Button title="DatePicker" onPress={(value) => showMode(value)} />
+			<Button title="DatePicker" onPress={(value) => showMode('date', value)} />
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"

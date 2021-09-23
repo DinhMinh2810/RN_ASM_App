@@ -14,9 +14,10 @@ import firebase from '../database/firebase';
 const UserDetailScreen = (props) => {
 	const initialState = {
 		id: '',
-		name: '',
-		email: '',
-		phone: '',
+		des: '',
+		// name: '',
+		// notes: '',
+		// price: '',
 	};
 	const [user, setUser] = useState(initialState);
 	const [loading, setLoading] = useState(true);
@@ -33,46 +34,25 @@ const UserDetailScreen = (props) => {
 	};
 
 	const updateUser = async () => {
-		const userRef = firebase.db.collection('users').doc(user.id);
-		await userRef.set({
-			name: user.name,
-			email: user.email,
-			phone: user.phone,
+		// const userRef = firebase.db.collection('users').doc(user.id);
+		const userRef = firebase.db.collection('users');
+		await userRef.add({
+			// name: user.name,
+			// notes: user.notes,
+			// price: user.price,
+			des: user.des,
 		});
 		setUser(initialState);
 		props.navigation.navigate('UsersList');
 	};
 
 	useEffect(() => {
+		//id user
 		getUserById(props.route.params.userId);
 	}, []);
 
 	const handleChangeText = (name, value) => {
 		setUser({ ...user, [name]: value });
-	};
-
-	const deleteUser = async () => {
-		setLoading(true);
-		const dbRef = firebase.db
-			.collection('users')
-			.doc(props.route.params.userId);
-		await dbRef.delete();
-		setLoading(false);
-		props.navigation.navigate('UsersList');
-	};
-
-	const openConfirmationAlert = () => {
-		Alert.alert(
-			'Removing the User',
-			'Are you sure?',
-			[
-				{ text: 'Yes', onPress: () => deleteUser() },
-				{ text: 'No', onPress: () => console.log('canceled') },
-			],
-			{
-				cancelable: true,
-			}
-		);
 	};
 
 	if (loading) {
@@ -86,6 +66,13 @@ const UserDetailScreen = (props) => {
 		<ScrollView style={styles.container}>
 			<View style={styles.inputGroup}>
 				<TextInput
+					placeholder="Price"
+					value={user.des}
+					onChangeText={(value) => handleChangeText('des', value)}
+				/>
+			</View>
+			{/* <View style={styles.inputGroup}>
+				<TextInput
 					placeholder="Name User"
 					value={user.name}
 					onChangeText={(value) => handleChangeText('name', value)}
@@ -93,27 +80,13 @@ const UserDetailScreen = (props) => {
 			</View>
 			<View style={styles.inputGroup}>
 				<TextInput
-					placeholder="Email User"
-					value={user.email}
-					onChangeText={(value) => handleChangeText('email', value)}
+					placeholder="Notes"
+					value={user.notes}
+					onChangeText={(value) => handleChangeText('notes', value)}
 				/>
-			</View>
-			<View style={styles.inputGroup}>
-				<TextInput
-					placeholder="Phone User"
-					value={user.phone}
-					onChangeText={(value) => handleChangeText('phone', value)}
-				/>
-			</View>
+			</View> */}
 			<View>
 				<Button title="Update" onPress={() => updateUser()} color="#19AC52" />
-			</View>
-			<View>
-				<Button
-					title="Delete"
-					onPress={() => openConfirmationAlert()}
-					color="#E37399"
-				/>
 			</View>
 		</ScrollView>
 	);

@@ -1,24 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import {
-	SafeAreaView,
-	TextInput,
-	Button,
-	ActivityIndicator,
-	Text,
-	View,
-	Picker,
-} from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
 import UsersList from './Screens/UsersList';
 import CreateUserScreen from './Screens/CreateUserScreen';
 import UserDetailScreen from './Screens/UserDetailScreen';
 
-// import Index from './src/navigations/index';
-// import Form from './src/screens/Form/index';
+const Stack = createStackNavigator();
 
 function MyStack() {
 	return (
@@ -26,7 +14,7 @@ function MyStack() {
 			<Stack.Screen
 				name="UsersList"
 				component={UsersList}
-				options={{ title: 'Users List' }}
+				options={{ title: 'Welcome to RentalZ' }}
 			/>
 			<Stack.Screen
 				name="CreateUserScreen"
