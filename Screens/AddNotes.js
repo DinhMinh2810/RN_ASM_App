@@ -11,16 +11,13 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import firebase from '../database/firebase';
 
-const UserDetailScreen = (props) => {
+const AddNotes = (props) => {
 	const initialState = {
 		id: '',
 		notes: '',
 	};
-
 	const [user, setUser] = useState(initialState);
 	const [loading, setLoading] = useState(true);
-
-	const userAll = { ...user };
 
 	const getUserById = async (id) => {
 		const dbRef = firebase.db.collection('users').doc(id);
@@ -37,21 +34,17 @@ const UserDetailScreen = (props) => {
 		getUserById(props.route.params.userId);
 	}, []);
 
-	const updateUser = async () => {
-		// const userRef = firebase.db.collection('users').doc(user.id);
-		// await userRef.set({
-		// 	// name: user.name,
-		// 	// notes: user.notes,
-		// 	// price: user.price,
-		// 	notes: user.notes,
-		// });
+	const addNoteMore = async () => {
 		const userRef = firebase.db.collection('users').doc(user.id);
-		await userRef.update({
-			notes: user.notes,
-		});
-		setUser(initialState);
-		// setUser(userAll);
-		props.navigation.navigate('UsersList');
+		if (user.notes.trim().length > 30) {
+			alert('Notes just maximum 30 characters !!');
+		} else {
+			await userRef.update({
+				notes: user.notes,
+			});
+			setUser(initialState);
+			props.navigation.navigate('UsersList');
+		}
 	};
 
 	const handleChangeText = (name, value) => {
@@ -66,11 +59,6 @@ const UserDetailScreen = (props) => {
 		);
 	}
 
-	const haha = () => {
-		// console.log(userAll);
-		console.log(user);
-	};
-
 	return (
 		<ScrollView style={styles.container}>
 			<View style={styles.inputGroup}>
@@ -80,25 +68,12 @@ const UserDetailScreen = (props) => {
 					onChangeText={(value) => handleChangeText('notes', value)}
 				/>
 			</View>
-			{/* <View style={styles.inputGroup}>
-				<TextInput
-					placeholder="Name User"
-					value={user.name}
-					onChangeText={(value) => handleChangeText('name', value)}
-				/>
-			</View>
-			<View style={styles.inputGroup}>
-				<TextInput
-					placeholder="Notes"
-					value={user.notes}
-					onChangeText={(value) => handleChangeText('notes', value)}
-				/>
-			</View> */}
 			<View>
-				<Button title="Update" onPress={() => updateUser()} color="#19AC52" />
-			</View>
-			<View>
-				<Button title="Update" onPress={() => haha()} color="#19AC52" />
+				<Button
+					title="Add notes more"
+					onPress={() => addNoteMore()}
+					color="#19AC52"
+				/>
 			</View>
 		</ScrollView>
 	);
@@ -130,4 +105,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default UserDetailScreen;
+export default AddNotes;

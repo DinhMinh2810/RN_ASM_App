@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import UsersList from './Screens/UsersList';
 import CreateUserScreen from './Screens/CreateUserScreen';
-import UserDetailScreen from './Screens/UserDetailScreen';
+import AddNotes from './Screens/AddNotes';
 
 const Stack = createStackNavigator();
 
@@ -19,13 +19,13 @@ function MyStack() {
 			<Stack.Screen
 				name="CreateUserScreen"
 				component={CreateUserScreen}
-				options={{ title: 'Create a New User' }}
+				options={{ title: 'Create a rental listing' }}
 			/>
 
 			<Stack.Screen
-				name="UserDetailScreen"
-				component={UserDetailScreen}
-				options={{ title: 'User Detail' }}
+				name="AddNotes"
+				component={AddNotes}
+				options={{ title: 'Add Notes' }}
 			/>
 		</Stack.Navigator>
 	);

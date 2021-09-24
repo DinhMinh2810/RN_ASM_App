@@ -23,7 +23,7 @@ const CreateUserScreen = (props) => {
 		notes: '',
 		name: '',
 	});
-
+	const [users, setUsers] = useState([]);
 	const [date, setDate] = useState(new Date());
 	const [mode, setMode] = useState('date');
 	const [show, setShow] = useState(false);
@@ -36,8 +36,10 @@ const CreateUserScreen = (props) => {
 		let tempDate = new Date(currentDate);
 		let fDate =
 			tempDate.getDate() +
+			tempDate.getMonth() +
+			1 +
 			'-' +
-			(tempDate.getMonth() + 1) +
+			tempDate.getDate() +
 			'-' +
 			tempDate.getFullYear();
 		let fTime =
@@ -72,29 +74,29 @@ const CreateUserScreen = (props) => {
 			state.price === '' &&
 			state.name === ''
 		) {
-			alert('Please fill all required field');
+			alert('Please fill all required field !!');
 		} else if (state.type === '') {
-			alert('Please select opinions Property Type field');
+			alert('Please select opinions Property Type field !!');
 		} else if (state.bedrooms === '') {
-			alert('Please select opinions Bedrooms field');
+			alert('Please select opinions Bedrooms field !!');
 		} else if (state.date === '') {
-			alert('Field Date Time is required"');
+			alert('Field Date Time is required !!');
 		} else if (state.price === '') {
-			alert('Field Monthly rent price is required');
-		} else if (state.notes.trim().length > 15) {
-			alert('Notes just maximum 15 characters');
+			alert('Field Monthly rent price is required !!');
+		} else if (state.notes.trim().length > 30) {
+			alert('Notes just maximum 30 characters !!');
 		} else if (state.name === '') {
-			alert('Field User Name field is required');
+			alert('Field User Name field is required !!');
 		} else {
 			Alert.alert(
 				'Are you confirm?',
-				`Property type : ${state.type} 
+				`Property type: ${state.type} 
 				\nBedrooms: ${state.bedrooms}
 				\nDate Time: ${state.date}
-				\nMonthly rent price s: ${state.price}
-				\nFurniture types : ${state.furniture}
+				\nMonthly rent price: ${state.price}$
+				\nFurniture types: ${state.furniture}
                 \nNotes: ${state.notes}
-				\nName of the reporter : ${state.name}`,
+				\nName of the reporter: ${state.name}`,
 				[
 					{
 						text: 'Yes',
@@ -109,7 +111,6 @@ const CreateUserScreen = (props) => {
 		}
 	};
 
-	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		firebase.db.collection('users').onSnapshot((querySnapshot) => {
 			const state = [];
@@ -131,13 +132,22 @@ const CreateUserScreen = (props) => {
 	}, []);
 
 	const duplicate = users.find((obj) => {
-		return obj.name === state.name;
+		return (
+			obj.type === state.type &&
+			obj.bedrooms === state.bedrooms &&
+			obj.price === state.price &&
+			obj.furniture === state.furniture &&
+			obj.notes === state.notes &&
+			obj.name === state.name
+		);
 	});
 
 	const addUser = async () => {
 		try {
 			if (duplicate) {
-				alert('User is existed. Please choose another username, thanks !!');
+				alert(
+					'Duplicate event is existed. Please select or enter again, thanks !!'
+				);
 			} else {
 				await firebase.db.collection('users').add({
 					type: state.type,
@@ -187,8 +197,11 @@ const CreateUserScreen = (props) => {
 					<Picker.Item label="Studio" value="Studio" />
 				</Picker>
 			</View>
-			<Text>Date Time: {text}</Text>
-			<Button title="DatePicker" onPress={(value) => showMode('date', value)} />
+			<Text style={styles.text}>Date Time: {text}</Text>
+			<Button
+				title="Click to choose date time"
+				onPress={(value) => showMode('date', value)}
+			/>
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -202,9 +215,10 @@ const CreateUserScreen = (props) => {
 			)}
 
 			<View style={styles.inputGroup}>
-				<Text>Monthly rent price</Text>
+				<Text style={styles.price}>Monthly rent price</Text>
 				<TextInput
 					placeholder="Please enter price"
+					keyboardType="numeric"
 					onChangeText={(value) => handleChangeText('price', value)}
 				/>
 			</View>
@@ -232,7 +246,7 @@ const CreateUserScreen = (props) => {
 				/>
 			</View>
 			<View style={styles.inputGroup}>
-				<Text>User name</Text>
+				<Text>Name of the reporter</Text>
 				<TextInput
 					placeholder="Please enter user name"
 					onChangeText={(value) => handleChangeText('name', value)}
@@ -248,7 +262,10 @@ const CreateUserScreen = (props) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 35,
+		// padding: 35,
+		paddingLeft: 35,
+		paddingRight: 35,
+		paddingTop: 13,
 	},
 	inputGroup: {
 		flex: 1,
@@ -265,6 +282,12 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	text: {
+		marginBottom: 10,
+	},
+	price: {
+		marginTop: 10,
 	},
 });
 
