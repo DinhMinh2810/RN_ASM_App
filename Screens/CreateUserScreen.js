@@ -45,8 +45,8 @@ const CreateUserScreen = (props) => {
 			':' +
 			tempDate.getMinutes() +
 			':' +
-			tempDate.getMinutes();
-		setText(fDate + ' ' + fTime);
+			tempDate.getSeconds();
+		setText(fTime + ' ' + fDate);
 		state.date = selectedDate.toLocaleString();
 		setState({ ...state, [name]: selectedDate });
 	};
@@ -239,7 +239,7 @@ const CreateUserScreen = (props) => {
 				/>
 			</View>
 			<View>
-				<Button title="Submit" onPress={() => saveNewUser()} />
+				<Button title="Submit" color="#8a7fff" onPress={() => saveNewUser()} />
 			</View>
 		</ScrollView>
 	);

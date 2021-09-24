@@ -64,7 +64,7 @@ const UsersList = (props, { navigation }) => {
 	const searchMake = (text) => {
 		if (text) {
 			const newData = users.filter((item) => {
-				const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+				const itemData = item.type ? item.type.toUpperCase() : ''.toUpperCase();
 				const textData = text.toUpperCase();
 				return itemData.indexOf(textData) > -1;
 			});
@@ -86,13 +86,19 @@ const UsersList = (props, { navigation }) => {
 			<View style={styles.searchWrapperStyle}>
 				<Icon size={18} name="search" color="white" style={styles.iconStyle} />
 				<TextInput
-					placeholder="Please search by User name"
+					placeholder="Please search by Property type"
 					placeholderTextColor="white"
 					style={styles.searchInputStyle}
 					underlineColorAndroid="transparent"
 					onChangeText={(text) => searchMake(text)}
 				/>
-				<Icon size={18} name="close" color="white" style={styles.iconStyle} />
+				<Icon
+					size={18}
+					name="close"
+					color="white"
+					style={styles.iconStyle}
+					onPress={() => setUsers(masterdMakeData)}
+				/>
 			</View>
 			{users.map((user) => {
 				return (
@@ -110,9 +116,7 @@ const UsersList = (props, { navigation }) => {
 							<ListItem.Content>
 								<ListItem.Title>Property type: {user.type}</ListItem.Title>
 								<ListItem.Title>Bedrooms: {user.bedrooms}</ListItem.Title>
-								{/* <ListItem.Title>
-									Date Time: {user.date.toLocaleString()}
-								</ListItem.Title> */}
+								<ListItem.Title>Date Time: {user.date}</ListItem.Title>
 								<ListItem.Title>Price: {user.price}</ListItem.Title>
 								<ListItem.Title>
 									Furniture types: {user.furniture}

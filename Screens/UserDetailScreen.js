@@ -14,13 +14,13 @@ import firebase from '../database/firebase';
 const UserDetailScreen = (props) => {
 	const initialState = {
 		id: '',
-		des: '',
-		// name: '',
-		// notes: '',
-		// price: '',
+		notes: '',
 	};
+
 	const [user, setUser] = useState(initialState);
 	const [loading, setLoading] = useState(true);
+
+	const userAll = { ...user };
 
 	const getUserById = async (id) => {
 		const dbRef = firebase.db.collection('users').doc(id);
@@ -33,23 +33,26 @@ const UserDetailScreen = (props) => {
 		setLoading(false);
 	};
 
-	const updateUser = async () => {
-		// const userRef = firebase.db.collection('users').doc(user.id);
-		const userRef = firebase.db.collection('users');
-		await userRef.add({
-			// name: user.name,
-			// notes: user.notes,
-			// price: user.price,
-			des: user.des,
-		});
-		setUser(initialState);
-		props.navigation.navigate('UsersList');
-	};
-
 	useEffect(() => {
-		//id user
 		getUserById(props.route.params.userId);
 	}, []);
+
+	const updateUser = async () => {
+		// const userRef = firebase.db.collection('users').doc(user.id);
+		// await userRef.set({
+		// 	// name: user.name,
+		// 	// notes: user.notes,
+		// 	// price: user.price,
+		// 	notes: user.notes,
+		// });
+		const userRef = firebase.db.collection('users').doc(user.id);
+		await userRef.update({
+			notes: user.notes,
+		});
+		setUser(initialState);
+		// setUser(userAll);
+		props.navigation.navigate('UsersList');
+	};
 
 	const handleChangeText = (name, value) => {
 		setUser({ ...user, [name]: value });
@@ -62,13 +65,19 @@ const UserDetailScreen = (props) => {
 			</View>
 		);
 	}
+
+	const haha = () => {
+		// console.log(userAll);
+		console.log(user);
+	};
+
 	return (
 		<ScrollView style={styles.container}>
 			<View style={styles.inputGroup}>
 				<TextInput
-					placeholder="Price"
-					value={user.des}
-					onChangeText={(value) => handleChangeText('des', value)}
+					placeholder="Please enter notes"
+					value={user.notes}
+					onChangeText={(value) => handleChangeText('notes', value)}
 				/>
 			</View>
 			{/* <View style={styles.inputGroup}>
@@ -87,6 +96,9 @@ const UserDetailScreen = (props) => {
 			</View> */}
 			<View>
 				<Button title="Update" onPress={() => updateUser()} color="#19AC52" />
+			</View>
+			<View>
+				<Button title="Update" onPress={() => haha()} color="#19AC52" />
 			</View>
 		</ScrollView>
 	);
