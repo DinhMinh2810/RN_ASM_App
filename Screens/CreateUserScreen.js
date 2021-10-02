@@ -83,10 +83,16 @@ const CreateUserScreen = (props) => {
 			alert('Field Date Time is required !!');
 		} else if (state.price === '') {
 			alert('Field Monthly rent price is required !!');
+		} else if (state.price <= 0) {
+			alert('Value of price must be greater than 0 !!');
+		} else if (state.price >= 10000) {
+			alert('Value of price must be less than 10000 !!');
 		} else if (state.notes.trim().length > 30) {
 			alert('Notes just maximum 30 characters !!');
 		} else if (state.name === '') {
 			alert('Field User Name field is required !!');
+		} else if (state.name.trim().length > 20) {
+			alert('Name just maximum 20 characters !!');
 		} else {
 			Alert.alert(
 				'Are you confirm?',
@@ -241,6 +247,7 @@ const CreateUserScreen = (props) => {
 			<View style={styles.inputGroup}>
 				<Text>Notes</Text>
 				<TextInput
+					multiline={true}
 					placeholder="Please enter notes"
 					onChangeText={(value) => handleChangeText('notes', value)}
 				/>
