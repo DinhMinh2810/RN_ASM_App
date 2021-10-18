@@ -36,8 +36,8 @@ const AddNotes = (props) => {
 
 	const addNoteMore = async () => {
 		const userRef = firebase.db.collection('users').doc(user.id);
-		if (user.notes.trim().length > 30) {
-			alert('Notes just maximum 30 characters !!');
+		if (user.notes.trim().length > 50) {
+			alert('Notes just maximum 50 characters !!');
 		} else {
 			await userRef.update({
 				notes: user.notes,
@@ -63,6 +63,7 @@ const AddNotes = (props) => {
 		<ScrollView style={styles.container}>
 			<View style={styles.inputGroup}>
 				<TextInput
+					multiline={true}
 					placeholder="Please enter notes"
 					value={user.notes}
 					onChangeText={(value) => handleChangeText('notes', value)}

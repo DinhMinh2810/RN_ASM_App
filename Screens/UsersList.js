@@ -44,6 +44,7 @@ const UsersList = (props) => {
 	const deleteUser = async (value) => {
 		const dbRef = firebase.db.collection('users').doc(value);
 		await dbRef.delete();
+		alert('Data user deleted successfully !!');
 	};
 
 	const openConfirmationAlert = (value) => {
@@ -63,9 +64,17 @@ const UsersList = (props) => {
 	const searchMake = (text) => {
 		if (text) {
 			const newData = users.filter((item) => {
-				const itemData = item.type ? item.type.toUpperCase() : ''.toUpperCase();
+				const itemType = item.type ? item.type.toUpperCase() : ''.toUpperCase();
+				const itemBedrooms = item.bedrooms
+					? item.bedrooms.toUpperCase()
+					: ''.toUpperCase();
+				const itemName = item.name ? item.name.toUpperCase() : ''.toUpperCase();
 				const textData = text.toUpperCase();
-				return itemData.indexOf(textData) > -1;
+				return (
+					itemType.indexOf(textData) > -1 ||
+					itemBedrooms.indexOf(textData) > -1 ||
+					itemName.indexOf(textData) > -1
+				);
 			});
 			setUsers(newData);
 			setsearchMakeee(text);
@@ -85,7 +94,7 @@ const UsersList = (props) => {
 			<View style={styles.searchWrapperStyle}>
 				<Icon size={18} name="search" color="white" style={styles.iconStyle} />
 				<TextInput
-					placeholder="Please search by Property type"
+					placeholder="Search by Property type, Bedrooms or Name"
 					placeholderTextColor="white"
 					style={styles.searchInputStyle}
 					underlineColorAndroid="transparent"
@@ -107,6 +116,7 @@ const UsersList = (props) => {
 						<ListItem key={user.id} bottomDivider>
 							<ListItem.Chevron />
 							<ListItem.Content>
+								<ListItem.Title>User Id: {user.id}</ListItem.Title>
 								<ListItem.Title>Property type: {user.type}</ListItem.Title>
 								<ListItem.Title>Bedrooms: {user.bedrooms}</ListItem.Title>
 								<ListItem.Title>Date Time: {user.date}</ListItem.Title>

@@ -144,7 +144,7 @@ const CreateUserScreen = (props) => {
 			obj.price === state.price &&
 			obj.furniture === state.furniture &&
 			obj.notes === state.notes &&
-			obj.name === state.name
+			obj.name === state.name 
 		);
 	});
 
@@ -269,7 +269,6 @@ const CreateUserScreen = (props) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// padding: 35,
 		paddingLeft: 35,
 		paddingRight: 35,
 		paddingTop: 13,
