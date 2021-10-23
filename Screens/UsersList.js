@@ -8,16 +8,19 @@ import {
 	FlatList,
 	View,
 	Text,
+	TouchableOpacity,
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from '../database/firebase';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/core';
 
 const UsersList = (props) => {
 	const [users, setUsers] = useState([]);
 	const [masterdMakeData, setmasterdMakeData] = useState([]);
 	const [filterdMakeData, setfilterdMakeData] = useState([]);
 	const [searchMakee, setsearchMakeee] = useState('');
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		firebase.db.collection('users').onSnapshot((querySnapshot) => {
@@ -84,13 +87,33 @@ const UsersList = (props) => {
 		}
 	};
 
+	const handleSignOut = () => {
+		firebase.auth
+			.signOut()
+			.then(() => {
+				navigation.replace('Login');
+			})
+			.catch((error) => alert(error.message));
+	};
+
 	return (
 		<ScrollView>
+			<Text style={styles.text}>
+				User Account: {firebase.auth.currentUser?.email}
+			</Text>
 			<Button
-				color="#4d8ee8"
-				title="create a rental listing"
-				onPress={() => props.navigation.navigate('CreateUserScreen')}
+				style={styles.signOut}
+				color="#e91e63"
+				title="Sign out"
+				onPress={handleSignOut}
 			/>
+			<View style={styles.signOut}>
+				<Button
+					color="#4d8ee8"
+					title="create a rental listing"
+					onPress={() => props.navigation.navigate('CreateUserScreen')}
+				/>
+			</View>
 			<View style={styles.searchWrapperStyle}>
 				<Icon size={18} name="search" color="white" style={styles.iconStyle} />
 				<TextInput
@@ -100,15 +123,7 @@ const UsersList = (props) => {
 					underlineColorAndroid="transparent"
 					onChangeText={(text) => searchMake(text)}
 				/>
-				<Icon
-					size={18}
-					name="close"
-					color="white"
-					style={styles.iconStyle}
-					onPress={() => {
-						setUsers(masterdMakeData);
-					}}
-				/>
+				<Icon size={18} name="close" color="white" style={styles.iconStyle} />
 			</View>
 			{users.map((user) => {
 				return (
@@ -116,7 +131,6 @@ const UsersList = (props) => {
 						<ListItem key={user.id} bottomDivider>
 							<ListItem.Chevron />
 							<ListItem.Content>
-								<ListItem.Title>User Id: {user.id}</ListItem.Title>
 								<ListItem.Title>Property type: {user.type}</ListItem.Title>
 								<ListItem.Title>Bedrooms: {user.bedrooms}</ListItem.Title>
 								<ListItem.Title>Date Time: {user.date}</ListItem.Title>
@@ -173,12 +187,20 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 		paddingHorizontal: 0,
 		margin: 0,
-		marginLeft: 5,
+		marginLeft: 12,
 		color: 'white',
 	},
 	button: {
 		margin: 10,
 		textTransform: 'lowercase',
+	},
+	text: {
+		marginLeft: 16,
+		marginTop: 10,
+		fontSize: 18,
+	},
+	signOut: {
+		marginTop: 4,
 	},
 });
 

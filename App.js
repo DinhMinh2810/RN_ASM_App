@@ -5,12 +5,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import UsersList from './Screens/UsersList';
 import CreateUserScreen from './Screens/CreateUserScreen';
 import AddNotes from './Screens/AddNotes';
+import Login from './Screens/Login';
 
 const Stack = createStackNavigator();
 
 function MyStack() {
 	return (
 		<Stack.Navigator>
+			<Stack.Screen
+				name="Login"
+				component={Login}
+				options={{ title: 'Register or Login account RentalZ' }}
+			/>
 			<Stack.Screen
 				name="UsersList"
 				component={UsersList}
