@@ -91,6 +91,8 @@ const CreateUserScreen = (props) => {
 			alert('Notes just maximum 30 characters !!');
 		} else if (state.name === '') {
 			alert('Field User Name field is required !!');
+		} else if (state.name.trim().length <= 3) {
+			alert('Name must be more than 3 characters !!');
 		} else if (state.name.trim().length > 20) {
 			alert('Name just maximum 20 characters !!');
 		} else {
@@ -144,7 +146,7 @@ const CreateUserScreen = (props) => {
 			obj.price === state.price &&
 			obj.furniture === state.furniture &&
 			obj.notes === state.notes &&
-			obj.name === state.name 
+			obj.name === state.name
 		);
 	});
 
