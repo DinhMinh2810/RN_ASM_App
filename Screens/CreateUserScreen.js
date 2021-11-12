@@ -143,6 +143,7 @@ const CreateUserScreen = (props) => {
 		return (
 			obj.type === state.type &&
 			obj.bedrooms === state.bedrooms &&
+			obj.date === state.date &&
 			obj.price === state.price &&
 			obj.furniture === state.furniture &&
 			obj.notes === state.notes &&
